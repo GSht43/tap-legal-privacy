@@ -537,20 +537,21 @@
       const payload = {
         name: `${firstName} ${lastName}`,
         email: email,
-        phone: phone,
         bar_number: barNumber,
         state_licensed: stateLicensed,
-        years_of_practice: parseInt(yearsOfPractice),
         specialties: selectedSpecialties,
-        law_firm: lawFirm || null,
-        bio: bio || null,
+        specializations: selectedSpecialties,
+        bio: bio ? `${bio}${lawFirm ? ' | Firm: ' + lawFirm : ''}${phone ? ' | Phone: ' + phone : ''}${yearsOfPractice ? ' | Years: ' + yearsOfPractice : ''}` : (lawFirm || phone ? `${lawFirm ? 'Firm: ' + lawFirm : ''}${phone ? (lawFirm ? ' | ' : '') + 'Phone: ' + phone : ''}` : null),
         is_available: false,
         is_active: false,
         is_verified: false,
         onboarding_fee_paid: false,
+        monthly_fee_paid: false,
         rating: null,
         total_calls_handled: 0,
-        total_earnings_cents: 0
+        total_earnings_cents: 0,
+        avg_rating: 0,
+        total_calls: 0
       };
 
       const response = await fetch(`${SUPABASE_URL}/rest/v1/lawyers`, {
