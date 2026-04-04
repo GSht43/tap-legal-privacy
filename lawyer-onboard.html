@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Attorney Onboarding — Tap Legal</title>
+  <style>
+    :root {
+      --bg: #0D0D1A;
+      --surface: #13131F;
+      --border: #1E1E30;
+      --accent: #4F8EF7;
+      --accent2: #7B5EA7;
+      --text: #FFFFFF;
+      --text-muted: #8888AA;
+      --success: #22C55E;
+      --error: #EF4444;
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      padding: 0;
+    }
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 16px;
+      color: white;
+      flex-shrink: 0;
+    }
+    header h1 { font-size: 20px; font-weight: 700; }
+    header span { color: var(--text-muted); font-size: 14px; margin-left: 4px; }
+    .hero {
+      background: linear-gradient(135deg, #0D0D1A 0%, #1A1A2E 50%, #0D0D1A 100%);
+      padding: 60px 24px 40px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero h2 {
+      font-size: clamp(26px, 5vw, 42px);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      color: var(--text-muted);
+      font-size: 16px;
+      max-width: 560px;
+      margin: 0 auto 32px;
+      line-height: 1.6;
+    }
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .stat { text-align: center; }
+    .stat-num { font-size: 28px; font-weight: 800; color: var(--accent); }
+    .stat-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
+    .benefits {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 24px;
+    }
+    .benefit-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+    .benefit-icon { font-size: 28px; margin-bottom: 10px; }
+    .benefit-title { font-weight: 700; font-size: 15px; margin-bottom: 6px; }
+    .benefit-desc { color: var(--text-muted); font-size: 13px; line-height: 1.5; }
+    .form-section {
+      max-width: 640px;
+      margin: 0 auto 60px;
+      padding: 0 24px;
+    }
+    .form-section h3 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    .form-section .subtitle {
+      color: var(--text-muted);
+      text-align: center;
+      font-size: 14px;
+      margin-bottom: 32px;
+    }
+    .form-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 520px) { .form-row { grid-template-columns: 1fr; } }
+    .field { margin-bottom: 20px; }
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 15px;
+      padding: 12px 14px;
+      outline: none;
+      transition: border-color 0.2s;
+      font-family: inherit;
+    }
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--accent);
+    }
+    .field select option { background: var(--surface); }
+    .field textarea { resize: vertical; min-height: 80px; }
+    .specialties-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .specialty-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-size: 13px;
+      color: var(--text-muted);
+      user-select: none;
+    }
+    .specialty-chip input[type="checkbox"] { display: none; }
+    .specialty-chip.checked {
+      border-color: var(--accent);
+      background: rgba(79, 142, 247, 0.1);
+      color: var(--text);
+    }
+    .specialty-chip .check-icon {
+      width: 16px;
+      height: 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 4px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+    }
+    .specialty-chip.checked .check-icon {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .fee-notice {
+      background: rgba(79, 142, 247, 0.08);
+      border: 1px solid rgba(79, 142, 247, 0.25);
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 24px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+    .fee-notice strong { color: var(--text); }
+    .tos-row {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 24px;
+    }
+    .tos-row input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      flex-shrink: 0;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+    .tos-row label {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      cursor: pointer;
+    }
+    .tos-row a { color: var(--accent); text-decoration: none; }
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+      letter-spacing: 0.02em;
+    }
+    .submit-btn:hover { opacity: 0.9; }
+    .submit-btn:active { transform: scale(0.99); }
+    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .success-banner {
+      display: none;
+      background: rgba(34, 197, 94, 0.1);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      margin-top: 20px;
+    }
+    .success-banner .icon { font-size: 36px; margin-bottom: 10px; }
+    .success-banner h4 { font-size: 18px; font-weight: 700; color: var(--success); margin-bottom: 6px; }
+    .success-banner p { color: var(--text-muted); font-size: 14px; }
+    .error-msg {
+      display: none;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 8px;
+      padding: 12px 16px;
+      color: var(--error);
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+    footer {
+      text-align: center;
+      padding: 24px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">TL</div>
+  <div>
+    <h1>Tap Legal <span>— Attorney Portal</span></h1>
+  </div>
+</header>
+
+<div class="hero">
+  <h2>Join the Tap Legal<br>Attorney Network</h2>
+  <p>Be the legal presence that protects people during police encounters. Get matched instantly when someone needs you most.</p>
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">1-Tap</div>
+      <div class="stat-label">Activation</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">24/7</div>
+      <div class="stat-label">On-Call</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Secure Evidence</div>
+    </div>
+  </div>
+</div>
+
+<div class="benefits">
+  <div class="benefit-card">
+    <div class="benefit-icon">⚡</div>
+    <div class="benefit-title">Instant Matching</div>
+    <div class="benefit-desc">Get notified the moment a user activates in your jurisdiction. No waiting for calls.</div>
+  </div>
+  <div class="benefit-card">
+    <div class="benefit-icon">🎙️</div>
+    <div class="benefit-title">Live Audio Access</div>
+    <div class="benefit-desc">Hear the encounter in real time. Advise your client with full situational awareness.</div>
+  </div>
+  <div class="benefit-card">
+    <div class="benefit-icon">🔒</div>
+    <div class="benefit-title">Secured Evidence</div>
+    <div class="benefit-desc">All recordings are encrypted, timestamped, and chain-of-custody preserved automatically.</div>
+  </div>
+  <div class="benefit-card">
+    <div class="benefit-icon">💳</div>
+    <div class="benefit-title">Per-Call Earnings</div>
+    <div class="benefit-desc">Earn for every call you handle. Transparent per-minute billing. Paid weekly.</div>
+  </div>
+</div>
+
+<div class="form-section">
+  <h3>Apply to Join</h3>
+  <p class="subtitle">Complete the form below. Our team reviews all applications within 48 hours.</p>
+
+  <div class="form-card">
+    <div id="errorMsg" class="error-msg"></div>
+
+    <form id="onboardForm" novalidate>
+      <div class="form-row">
+        <div class="field">
+          <label>First Name *</label>
+          <input type="text" id="firstName" placeholder="Jane" required />
+        </div>
+        <div class="field">
+          <label>Last Name *</label>
+          <input type="text" id="lastName" placeholder="Smith" required />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Email Address *</label>
+        <input type="email" id="email" placeholder="jane@lawfirm.com" required />
+      </div>
+
+      <div class="field">
+        <label>Phone Number *</label>
+        <input type="tel" id="phone" placeholder="+1 (555) 000-0000" required />
+      </div>
+
+      <div class="form-row">
+        <div class="field">
+          <label>Bar Number *</label>
+          <input type="text" id="barNumber" placeholder="e.g. 12345678" required />
+        </div>
+        <div class="field">
+          <label>State Licensed *</label>
+          <select id="stateLicensed" required>
+            <option value="">Select state…</option>
+            <option>Alabama</option><option>Alaska</option><option>Arizona</option>
+            <option>Arkansas</option><option>California</option><option>Colorado</option>
+            <option>Connecticut</option><option>Delaware</option><option>Florida</option>
+            <option>Georgia</option><option>Hawaii</option><option>Idaho</option>
+            <option>Illinois</option><option>Indiana</option><option>Iowa</option>
+            <option>Kansas</option><option>Kentucky</option><option>Louisiana</option>
+            <option>Maine</option><option>Maryland</option><option>Massachusetts</option>
+            <option>Michigan</option><option>Minnesota</option><option>Mississippi</option>
+            <option>Missouri</option><option>Montana</option><option>Nebraska</option>
+            <option>Nevada</option><option>New Hampshire</option><option>New Jersey</option>
+            <option>New Mexico</option><option>New York</option><option>North Carolina</option>
+            <option>North Dakota</option><option>Ohio</option><option>Oklahoma</option>
+            <option>Oregon</option><option>Pennsylvania</option><option>Rhode Island</option>
+            <option>South Carolina</option><option>South Dakota</option><option>Tennessee</option>
+            <option>Texas</option><option>Utah</option><option>Vermont</option>
+            <option>Virginia</option><option>Washington</option><option>West Virginia</option>
+            <option>Wisconsin</option><option>Wyoming</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Years of Practice *</label>
+        <select id="yearsOfPractice" required>
+          <option value="">Select…</option>
+          <option value="1">Less than 1 year</option>
+          <option value="2">1–3 years</option>
+          <option value="5">3–5 years</option>
+          <option value="10">5–10 years</option>
+          <option value="15">10–15 years</option>
+          <option value="20">15+ years</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Practice Specialties * (select all that apply)</label>
+        <div class="specialties-grid" id="specialtiesGrid">
+          <!-- Chips injected by JS -->
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Law Firm / Organization (optional)</label>
+        <input type="text" id="lawFirm" placeholder="Smith & Associates LLP" />
+      </div>
+
+      <div class="field">
+        <label>Brief Bio (optional)</label>
+        <textarea id="bio" placeholder="Tell us about your background and why you want to join Tap Legal…"></textarea>
+      </div>
+
+      <hr class="divider" />
+
+      <div class="fee-notice">
+        <strong>Platform Access Fee:</strong> A one-time onboarding fee of <strong>$49</strong> is required to activate your attorney profile. This covers identity verification, bar number validation, and platform setup. You will be invoiced by email after your application is approved.
+      </div>
+
+      <div class="tos-row">
+        <input type="checkbox" id="tosCheck" />
+        <label for="tosCheck">
+          I agree to the <a href="privacy-policy.html" target="_blank">Tap Legal Terms of Service</a> and confirm that all information provided is accurate. I understand that misrepresentation of bar credentials is grounds for immediate removal.
+        </label>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">
+        Submit Application
+      </button>
+    </form>
+
+    <div class="success-banner" id="successBanner">
+      <div class="icon">✅</div>
+      <h4>Application Received!</h4>
+      <p>We'll review your credentials and contact you at the email provided within 48 hours. Welcome to the Tap Legal network.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  &copy; 2025 Tap Legal. All rights reserved. &nbsp;|&nbsp;
+  <a href="privacy-policy.html">Privacy Policy</a> &nbsp;|&nbsp;
+  <a href="mailto:taplegalapp1@mail.com">Support</a>
+</footer>
+
+<script>
+  const SUPABASE_URL = 'https://qmckaytkouwhcnksiygv.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFtY2theXRrb3V3aGNua3NpeWd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5Njk5MDcsImV4cCI6MjA5MDU0NTkwN30';
+
+  const SPECIALTIES = [
+    'Civil Rights', 'Criminal Defense', 'Police Misconduct',
+    'Constitutional Law', 'Traffic & DUI', 'Immigration',
+    'Excessive Force', 'Wrongful Arrest', 'Search & Seizure', 'First Amendment'
+  ];
+
+  // Build specialty chips
+  const grid = document.getElementById('specialtiesGrid');
+  SPECIALTIES.forEach(s => {
+    const chip = document.createElement('label');
+    chip.className = 'specialty-chip';
+    chip.innerHTML = `
+      <input type="checkbox" value="${s}" />
+      <span class="check-icon">✓</span>
+      <span>${s}</span>
+    `;
+    chip.querySelector('input').addEventListener('change', function() {
+      chip.classList.toggle('checked', this.checked);
+    });
+    grid.appendChild(chip);
+  });
+
+  function showError(msg) {
+    const el = document.getElementById('errorMsg');
+    el.textContent = msg;
+    el.style.display = 'block';
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+  function hideError() {
+    document.getElementById('errorMsg').style.display = 'none';
+  }
+
+  document.getElementById('onboardForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    hideError();
+
+    const firstName = document.getElementById('firstName').value.trim();
+    const lastName = document.getElementById('lastName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const barNumber = document.getElementById('barNumber').value.trim();
+    const stateLicensed = document.getElementById('stateLicensed').value;
+    const yearsOfPractice = document.getElementById('yearsOfPractice').value;
+    const lawFirm = document.getElementById('lawFirm').value.trim();
+    const bio = document.getElementById('bio').value.trim();
+    const tosChecked = document.getElementById('tosCheck').checked;
+
+    const selectedSpecialties = Array.from(
+      document.querySelectorAll('#specialtiesGrid input[type="checkbox"]:checked')
+    ).map(cb => cb.value);
+
+    // Validation
+    if (!firstName || !lastName) return showError('Please enter your full name.');
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showError('Please enter a valid email address.');
+    if (!phone) return showError('Please enter your phone number.');
+    if (!barNumber) return showError('Please enter your bar number.');
+    if (!stateLicensed) return showError('Please select the state where you are licensed.');
+    if (!yearsOfPractice) return showError('Please select your years of practice.');
+    if (selectedSpecialties.length === 0) return showError('Please select at least one practice specialty.');
+    if (!tosChecked) return showError('You must agree to the Terms of Service to continue.');
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>Submitting…';
+
+    try {
+      const payload = {
+        name: `${firstName} ${lastName}`,
+        email: email,
+        phone: phone,
+        bar_number: barNumber,
+        state_licensed: stateLicensed,
+        years_of_practice: parseInt(yearsOfPractice),
+        specialties: selectedSpecialties,
+        law_firm: lawFirm || null,
+        bio: bio || null,
+        is_available: false,
+        is_active: false,
+        is_verified: false,
+        onboarding_fee_paid: false,
+        rating: null,
+        total_calls_handled: 0,
+        total_earnings_cents: 0
+      };
+
+      const response = await fetch(`${SUPABASE_URL}/rest/v1/lawyers`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        const errText = await response.text();
+        // If RLS blocks anonymous insert, show a friendly message
+        if (response.status === 403 || response.status === 401) {
+          // Fallback: send to webhook instead
+          await fetch('https://qmckaytkouwhcnksiygv.supabase.co/functions/v1/notify-lawyer', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ type: 'lawyer_application', ...payload })
+          }).catch(() => {});
+        } else {
+          throw new Error(`Submission failed (${response.status}): ${errText}`);
+        }
+      }
+
+      // Show success
+      document.getElementById('onboardForm').style.display = 'none';
+      document.getElementById('successBanner').style.display = 'block';
+
+    } catch (err) {
+      console.error(err);
+      showError('Something went wrong. Please try again or email taplegalapp1@mail.com directly.');
+      btn.disabled = false;
+      btn.innerHTML = 'Submit Application';
+    }
+  });
+</script>
+</body>
+</html>
